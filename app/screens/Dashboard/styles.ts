@@ -37,22 +37,17 @@ export const UserPhoto = styled.Image`
   margin-right: ${({ theme }) => theme.spacing(2)};
 `;
 
-export const UserInfo = styled.View``;
-
-export const UserGreetings = styled.Text`
-  font-family: ${({ theme }) => theme.typography.fonts.regular};
-  font-size: ${({ theme }) => theme.rfValue(18)}px;
-  color: ${({ theme }) => theme.palette.shape};
-`;
-
-export const UserName = styled.Text`
-  font-family: ${({ theme }) => theme.typography.fonts.bold};
-  font-size: ${({ theme }) => theme.rfValue(18)}px;
-  color: ${({ theme }) => theme.palette.shape};
-`;
-
 export const Icon = styled(Feather).attrs(({ theme }) => ({
   name: 'power',
   size: theme.rfValue(24),
   color: theme.palette.orange,
 }))``;
+
+export const HighlightCards = styled.ScrollView.attrs(({ theme }) => ({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingHorizontal: theme.rfValue(24) },
+}))`
+  position: absolute;
+  bottom: ${({ theme }) => theme.spacing(-4)};
+`;
