@@ -37,8 +37,14 @@ const Dashboard: React.FC = () => {
           </S.InfoBar>
         </Container>
         <S.HighlightCards>
-          {fixtures.highlightCards.map(({ type, value, date }) => (
-            <HighlightCard key={type} type={type} value={value} date={date} />
+          {fixtures.highlightCards.map(({ type, value, date }, i) => (
+            <HighlightCard
+              key={type}
+              type={type}
+              value={value}
+              date={date}
+              noMargin={i === fixtures.highlightCards.length - 1}
+            />
           ))}
         </S.HighlightCards>
       </S.Header>
