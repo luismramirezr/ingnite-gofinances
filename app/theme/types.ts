@@ -6,7 +6,8 @@ export type PaletteColor =
   | 'shape'
   | 'title'
   | 'text'
-  | 'background';
+  | 'background'
+  | 'dark';
 
 export type TypographyVariant = 'body';
 

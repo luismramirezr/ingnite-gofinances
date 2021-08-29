@@ -8,6 +8,9 @@ import * as fixtures from 'app/fixtures/dashboard';
 import * as S from './styles';
 
 import HighlightCard from './components/HighlightCard';
+import TransactionCard from './components/TransactionCard';
+
+import type { Props as TransactionCardProps } from './components/TransactionCard';
 
 const Dashboard: React.FC = () => {
   return (
@@ -39,6 +42,20 @@ const Dashboard: React.FC = () => {
           ))}
         </S.HighlightCards>
       </S.Header>
+      <Container fullHeight>
+        <S.Transactions>
+          <Typography fontSize={18} color="dark">
+            Listagem
+          </Typography>
+          <S.TransactionList
+            data={fixtures.transactions}
+            keyExtractor={(item: TransactionCardProps) => item.title}
+            renderItem={({ item }) => (
+              <TransactionCard {...(item as TransactionCardProps)} />
+            )}
+          />
+        </S.Transactions>
+      </Container>
     </S.Container>
   );
 };

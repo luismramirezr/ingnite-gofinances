@@ -51,3 +51,13 @@ export const HighlightCards = styled.ScrollView.attrs(({ theme }) => ({
   position: absolute;
   bottom: ${({ theme }) => theme.spacing(-4)};
 `;
+
+export const Transactions = styled.View`
+  flex: 1;
+  padding-top: ${({ theme }) => theme.spacing(2 + 4)};
+`;
+
+export const TransactionList = styled.FlatList`
+  height: 100%;
+  margin: ${({ theme }) => theme.spacing(1, 0)};
+`;
