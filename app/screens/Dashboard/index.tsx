@@ -33,7 +33,9 @@ const Dashboard: React.FC = () => {
                 </Typography>
               </View>
             </S.User>
-            <S.Icon />
+            <S.LogoutButton>
+              <S.Icon />
+            </S.LogoutButton>
           </S.InfoBar>
         </Container>
         <S.HighlightCards>

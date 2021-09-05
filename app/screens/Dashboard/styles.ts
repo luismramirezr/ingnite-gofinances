@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -36,6 +37,8 @@ export const UserPhoto = styled.Image`
   border-radius: ${({ theme }) => theme.radius(5)};
   margin-right: ${({ theme }) => theme.spacing(2)};
 `;
+
+export const LogoutButton = styled(BorderlessButton)``;
 
 export const Icon = styled(Feather).attrs(({ theme }) => ({
   name: 'power',
