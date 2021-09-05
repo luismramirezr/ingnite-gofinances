@@ -20,7 +20,7 @@ const iconPropsMap = {
 export interface Props {
   type: 'income' | 'expense' | 'balance';
   value: number;
-  date: string;
+  date?: string;
   noMargin?: boolean;
 }
 
@@ -45,13 +45,13 @@ const HighlightCard: React.FC<Props> = ({ type, value, date, noMargin }) => {
           fontSize={32}
           color={type === 'balance' ? 'shape' : 'title'}
         >
-          {value.toLocaleString('pt-BR', {
+          {(type === 'expense' ? -value : value).toLocaleString('pt-BR', {
             currency: 'BRL',
             style: 'currency',
           })}
         </Typography>
         <Typography fontSize={12} color={type === 'balance' ? 'shape' : 'text'}>
-          {date}
+          {date || 'Sem movimentações no período'}
         </Typography>
       </View>
     </S.Container>

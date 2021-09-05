@@ -1,19 +1,6 @@
+import type { Category, CategoryType } from 'app/types/models';
+
 export const ASYNC_STORAGE_KEY = '@gofinances';
-
-export interface Category {
-  id: CategoryType;
-  name: string;
-  color: string;
-  icon: string;
-}
-
-export type CategoryType =
-  | 'purchases'
-  | 'food'
-  | 'salary'
-  | 'car'
-  | 'leisure'
-  | 'studies';
 
 export const categories: { [key in CategoryType]: Category } = {
   purchases: {

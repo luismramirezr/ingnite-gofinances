@@ -3,7 +3,13 @@ import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 
 import * as S from './styles';
 
-const Layout: React.FC = ({ children }) => {
+export interface Props {
+  wrap?: boolean;
+}
+
+const Layout: React.FC<Props> = ({ wrap, children }) => {
+  if (!wrap) return <S.Container>{children}</S.Container>;
+
   return (
     <S.Container>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

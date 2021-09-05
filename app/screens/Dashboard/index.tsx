@@ -1,20 +1,42 @@
 import React from 'react';
 import { View } from 'react-native';
+
+import isSameMonth from 'date-fns/isSameMonth';
+
+import getHightlightCardsData from 'app/utils/getHighlightCardsData';
+
+import AS from 'app/utils/asyncStorage';
+import useAsyncLayoutEffect from 'app/hook/useAsyncLayoutEffect';
+
 import Layout from 'app/components/ui/Layout';
 import Container from 'app/components/ui/Container';
 import Header from 'app/components/ui/Header';
 import Typography from 'app/components/ui/Typography';
 
-import * as fixtures from 'app/fixtures/dashboard';
+import type { Transaction } from 'app/types/models';
 
 import * as S from './styles';
 
 import HighlightCard from './components/HighlightCard';
 import TransactionCard from './components/TransactionCard';
 
-import type { Props as TransactionCardProps } from './components/TransactionCard';
+import type { Props as HighlightCardProps } from './components/HighlightCard';
 
 const Dashboard: React.FC = () => {
+  const [transactions, isFetching] = useAsyncLayoutEffect<Transaction[]>(
+    [],
+    undefined,
+    async () => {
+      const data = await AS.get<Transaction[]>('transactions');
+      return data.filter(({ date }) => isSameMonth(new Date(), new Date(date)));
+    }
+  );
+
+  const highlightCards: HighlightCardProps[] = React.useMemo(
+    () => getHightlightCardsData(transactions),
+    [transactions.length]
+  );
+
   return (
     <Layout>
       <Header height={278}>
@@ -41,15 +63,16 @@ const Dashboard: React.FC = () => {
           </S.InfoBar>
         </Container>
         <S.HighlightCards>
-          {fixtures.highlightCards.map(({ type, value, date }, i) => (
-            <HighlightCard
-              key={type}
-              type={type}
-              value={value}
-              date={date}
-              noMargin={i === fixtures.highlightCards.length - 1}
-            />
-          ))}
+          {!isFetching &&
+            highlightCards.map(({ type, value, date, noMargin }) => (
+              <HighlightCard
+                key={type}
+                type={type}
+                value={value}
+                date={date}
+                noMargin={noMargin}
+              />
+            ))}
         </S.HighlightCards>
       </Header>
       <Container fullHeight>
@@ -57,13 +80,15 @@ const Dashboard: React.FC = () => {
           <Typography fontSize={18} color="dark">
             Listagem
           </Typography>
-          <S.TransactionList
-            data={fixtures.transactions}
-            keyExtractor={(item: TransactionCardProps) => item.title}
-            renderItem={({ item }) => (
-              <TransactionCard {...(item as TransactionCardProps)} />
-            )}
-          />
+          {!isFetching && (
+            <S.TransactionList
+              data={transactions}
+              keyExtractor={(item: Transaction) => item.id}
+              renderItem={({ item }) => (
+                <TransactionCard {...(item as Transaction)} />
+              )}
+            />
+          )}
         </S.Transactions>
       </Container>
     </Layout>

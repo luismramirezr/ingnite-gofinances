@@ -14,7 +14,7 @@ import Typography from 'app/components/ui/Typography';
 import Button from 'app/components/ui/Button';
 import Input from 'app/components/ui/form/Input';
 
-import { CategoryType } from 'app/config/constants';
+import type { CategoryType } from 'app/types/models';
 
 import TransactionTypeButton from './components/TransactionTypeButton';
 import CategorySelectButton from './components/CategorySelectButton';
@@ -65,7 +65,7 @@ const Register: React.FC = () => {
   }, [formMethods.register]);
 
   return (
-    <Layout>
+    <Layout wrap>
       <Header>
         <S.Container>
           <Typography variant="title">Cadastro</Typography>
@@ -81,7 +81,7 @@ const Register: React.FC = () => {
                 autoCapitalize="sentences"
                 autoCorrect={false}
               />
-              <Input name="price" placeholder="Preço" keyboardType="numeric" />
+              <Input name="value" placeholder="Preço" keyboardType="numeric" />
               <TransactionTypeButton />
               <CategorySelectButton
                 category={category}

@@ -1,30 +1,38 @@
 import React from 'react';
 import { View } from 'react-native';
+import format from 'date-fns/format';
 
 import Typography from 'app/components/ui/Typography';
 
 import { categories } from 'app/config/constants';
-import type { CategoryType } from 'app/config/constants';
+import type { Transaction } from 'app/types/models';
 
 import * as S from './styles';
 
-export interface Props {
-  title: string;
-  value: number;
-  category: CategoryType;
-  date: string;
-}
+export type Props = Transaction;
 
-const TransactionCard: React.FC<Props> = ({ title, value, category, date }) => {
+const TransactionCard: React.FC<Props> = ({
+  name,
+  value,
+  category,
+  transactionType,
+  date,
+}) => {
   return (
     <S.Container>
       <View>
-        <Typography color="title">{title}</Typography>
-        <Typography fontSize={20} color={value >= 0 ? 'green' : 'red'}>
-          {value.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          })}
+        <Typography color="title">{name}</Typography>
+        <Typography
+          fontSize={20}
+          color={transactionType === 'income' ? 'green' : 'red'}
+        >
+          {(transactionType === 'outcome' ? -value : value).toLocaleString(
+            'pt-BR',
+            {
+              style: 'currency',
+              currency: 'BRL',
+            }
+          )}
         </Typography>
       </View>
       <S.Footer>
@@ -32,7 +40,7 @@ const TransactionCard: React.FC<Props> = ({ title, value, category, date }) => {
           <S.Icon name={categories[category].icon} />
           <Typography>{categories[category].name}</Typography>
         </S.Category>
-        <Typography>{date}</Typography>
+        <Typography>{format(new Date(date), 'dd/MM/yyyy')}</Typography>
       </S.Footer>
     </S.Container>
   );
