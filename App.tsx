@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AppLoading from 'expo-app-loading';
+import { NavigationContainer } from '@react-navigation/native';
 
 import { ThemeProvider } from 'styled-components';
 import {
@@ -11,7 +12,7 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import theme from 'app/theme';
-import Dashboard from 'app/screens/Dashboard';
+import PrivateRoutes from 'app/routes/private.routes';
 
 const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -24,7 +25,9 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      <NavigationContainer>
+        <PrivateRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 };
