@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
+import Layout from 'app/components/ui/Layout';
 import Container from 'app/components/ui/Container';
+import Header from 'app/components/ui/Header';
 import Typography from 'app/components/ui/Typography';
 
 import * as fixtures from 'app/fixtures/dashboard';
@@ -14,8 +16,8 @@ import type { Props as TransactionCardProps } from './components/TransactionCard
 
 const Dashboard: React.FC = () => {
   return (
-    <S.Container>
-      <S.Header>
+    <Layout>
+      <Header height={278}>
         <Container>
           <S.InfoBar>
             <S.User>
@@ -49,7 +51,7 @@ const Dashboard: React.FC = () => {
             />
           ))}
         </S.HighlightCards>
-      </S.Header>
+      </Header>
       <Container fullHeight>
         <S.Transactions>
           <Typography fontSize={18} color="dark">
@@ -64,7 +66,7 @@ const Dashboard: React.FC = () => {
           />
         </S.Transactions>
       </Container>
-    </S.Container>
+    </Layout>
   );
 };
 

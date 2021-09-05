@@ -3,20 +3,6 @@ import { Feather } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
-export const Container = styled.View`
-  flex: 1;
-
-  background-color: ${({ theme }) => theme.palette.background};
-`;
-
-export const Header = styled.View`
-  width: 100%;
-  height: ${({ theme }) => theme.rfValue(278)}px;
-  background-color: ${({ theme }) => theme.palette.blue};
-
-  align-items: center;
-`;
-
 export const InfoBar = styled.View`
   width: 100%;
   flex-direction: row;

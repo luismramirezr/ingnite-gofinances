@@ -1,3 +1,5 @@
+export const ASYNC_STORAGE_KEY = '@gofinances';
+
 export interface Category {
   id: CategoryType;
   name: string;
@@ -28,6 +30,6 @@ export const categories: { [key in CategoryType]: Category } = {
     color: '#12A454',
   },
   car: { id: 'car', name: 'Carro', icon: 'crosshair', color: '#E83F5B' },
-  leisure: { id: 'leisure', name: 'Lazer', icon: 'heart', color: '#26195C' },
+  leisure: { id: 'leisure', name: 'Lazer', icon: 'heart', color: '#26199F' },
   studies: { id: 'studies', name: 'Estudos', icon: 'book', color: '#9C001A' },
 };

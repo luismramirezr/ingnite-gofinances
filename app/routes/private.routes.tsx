@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 
 import Dashboard from 'app/screens/Dashboard';
+import Register from 'app/screens/Register';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ const PrivateRoutes: React.FC = () => {
     >
       <Tab.Screen
         options={{
+          title: 'Listagem',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons
               size={size}
@@ -31,25 +33,27 @@ const PrivateRoutes: React.FC = () => {
             />
           ),
         }}
-        name="Listagem"
+        name="dashboard"
         component={Dashboard}
       />
       <Tab.Screen
         options={{
+          title: 'Cadastrar',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons size={size} color={color} name="attach-money" />
           ),
         }}
-        name="Cadastrar"
-        component={Dashboard}
+        name="register"
+        component={Register}
       />
       <Tab.Screen
         options={{
+          title: 'Resumo',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons size={size} color={color} name="pie-chart" />
           ),
         }}
-        name="Resumo"
+        name="piechart"
         component={Dashboard}
       />
     </Tab.Navigator>

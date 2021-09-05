@@ -24,6 +24,21 @@ const typography: {
     font-size: ${({ theme }) => theme.rfValue(14)}px;
     color: ${({ theme }) => theme.palette.text};
   `,
+  title: css`
+    font-family: ${fonts.regular};
+    font-size: ${({ theme }) => theme.rfValue(18)}px;
+    color: ${({ theme }) => theme.palette.shape};
+  `,
+  input: css`
+    font-family: ${fonts.regular};
+    font-size: ${({ theme }) => theme.rfValue(14)}px;
+    color: ${({ theme }) => theme.palette.dark};
+  `,
+  button: css`
+    font-family: ${fonts.medium};
+    font-size: ${({ theme }) => theme.rfValue(14)}px;
+    color: ${({ theme }) => theme.palette.shape};
+  `,
 };
 
 export default typography;
