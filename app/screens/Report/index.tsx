@@ -17,19 +17,26 @@ import CategoryCard from './components/CategoryCard';
 
 import type { CategoryType, Transaction } from 'app/types/models';
 import getCategory from 'app/utils/getCategory';
+import MonthSelector from './components/MonthSelector';
 
 const Report: React.FC = () => {
   const theme = useTheme();
+  const [currentDate, setCurrentDate] = React.useState(new Date().toString());
+
   const [transactions, isFetching] = useAsyncLayoutEffect<Transaction[]>(
     [],
-    undefined,
-    async () => {
+    [currentDate],
+    async ([newDate]) => {
       const data = await AS.get<Transaction[]>('transactions');
       return data
-        .filter(({ date }) => isSameMonth(new Date(), new Date(date)))
+        .filter(({ date }) => isSameMonth(new Date(newDate), new Date(date)))
         .filter(({ transactionType }) => transactionType === 'outcome');
     }
   );
+
+  const handleChangeDate = (newDate: string) => {
+    setCurrentDate(newDate);
+  };
 
   const totalOutcome = React.useMemo(
     () => transactions.reduce((acc, { value }) => acc + value, 0),
@@ -63,8 +70,10 @@ const Report: React.FC = () => {
         </S.Container>
       </Header>
       <Container fullHeight>
+        <MonthSelector date={currentDate} setDate={handleChangeDate} />
         <S.ChartContainer>
           <VictoryPie
+            height={theme.rfValue(325)}
             data={Object.entries(totalByCategory).map(
               ([_, { percentage, total }]) => ({
                 x: `${Number((percentage * 100).toFixed(2)).toLocaleString(
@@ -78,7 +87,7 @@ const Report: React.FC = () => {
             )}
             style={{
               labels: {
-                fontSize: theme.rfValue(16),
+                fontSize: theme.rfValue(15),
                 fill: theme.palette.shape,
               },
             }}
