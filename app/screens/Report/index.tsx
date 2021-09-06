@@ -10,6 +10,7 @@ import { VictoryPie } from 'victory-native';
 import Header from 'app/components/ui/Header';
 import Layout from 'app/components/ui/Layout';
 import Typography from 'app/components/ui/Typography';
+import Loader from 'app/components/ui/Loader';
 
 import * as S from './styles';
 import Container from 'app/components/ui/Container';
@@ -71,38 +72,44 @@ const Report: React.FC = () => {
       </Header>
       <Container fullHeight>
         <MonthSelector date={currentDate} setDate={handleChangeDate} />
-        <S.ChartContainer>
-          <VictoryPie
-            height={theme.rfValue(325)}
-            data={Object.entries(totalByCategory).map(
-              ([_, { percentage, total }]) => ({
-                x: `${Number((percentage * 100).toFixed(2)).toLocaleString(
-                  'pt-Br'
-                )}%`,
-                y: total,
-              })
-            )}
-            colorScale={Object.values(totalByCategory).map(
-              ({ color }) => color
-            )}
-            style={{
-              labels: {
-                fontSize: theme.rfValue(15),
-                fill: theme.palette.shape,
-              },
-            }}
-            labelRadius={50}
-          />
-        </S.ChartContainer>
-        <S.List>
-          {Object.entries(totalByCategory).map(([category, { total }]) => (
-            <CategoryCard
-              key={category}
-              category={category as CategoryType}
-              value={total}
-            />
-          ))}
-        </S.List>
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <>
+            <S.ChartContainer>
+              <VictoryPie
+                height={theme.rfValue(325)}
+                data={Object.entries(totalByCategory).map(
+                  ([_, { percentage, total }]) => ({
+                    x: `${Number((percentage * 100).toFixed(2)).toLocaleString(
+                      'pt-Br'
+                    )}%`,
+                    y: total,
+                  })
+                )}
+                colorScale={Object.values(totalByCategory).map(
+                  ({ color }) => color
+                )}
+                style={{
+                  labels: {
+                    fontSize: theme.rfValue(15),
+                    fill: theme.palette.shape,
+                  },
+                }}
+                labelRadius={50}
+              />
+            </S.ChartContainer>
+            <S.List>
+              {Object.entries(totalByCategory).map(([category, { total }]) => (
+                <CategoryCard
+                  key={category}
+                  category={category as CategoryType}
+                  value={total}
+                />
+              ))}
+            </S.List>
+          </>
+        )}
       </Container>
     </Layout>
   );

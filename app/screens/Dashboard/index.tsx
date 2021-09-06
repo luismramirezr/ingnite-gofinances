@@ -12,6 +12,7 @@ import Layout from 'app/components/ui/Layout';
 import Container from 'app/components/ui/Container';
 import Header from 'app/components/ui/Header';
 import Typography from 'app/components/ui/Typography';
+import Loader from 'app/components/ui/Loader';
 
 import type { Transaction } from 'app/types/models';
 
@@ -25,7 +26,7 @@ import type { Props as HighlightCardProps } from './components/HighlightCard';
 const Dashboard: React.FC = () => {
   const [transactions, isFetching] = useAsyncLayoutEffect<Transaction[]>(
     [],
-    undefined,
+    [],
     async () => {
       const data = await AS.get<Transaction[]>('transactions');
       return data
@@ -64,9 +65,11 @@ const Dashboard: React.FC = () => {
             </S.LogoutButton>
           </S.InfoBar>
         </Container>
-        <S.HighlightCards>
-          {!isFetching &&
-            highlightCards.map(({ type, value, date, noMargin }) => (
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <S.HighlightCards>
+            {highlightCards.map(({ type, value, date, noMargin }) => (
               <HighlightCard
                 key={type}
                 type={type}
@@ -75,14 +78,17 @@ const Dashboard: React.FC = () => {
                 noMargin={noMargin}
               />
             ))}
-        </S.HighlightCards>
+          </S.HighlightCards>
+        )}
       </Header>
       <Container fullHeight>
         <S.Transactions>
           <Typography fontSize={18} color="dark">
             Listagem
           </Typography>
-          {!isFetching && (
+          {isFetching ? (
+            <Loader />
+          ) : (
             <S.TransactionList
               data={transactions}
               keyExtractor={(item: Transaction) => item.id}

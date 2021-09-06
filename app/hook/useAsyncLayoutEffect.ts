@@ -3,8 +3,8 @@ import { useFocusEffect } from '@react-navigation/native';
 
 function useAsyncLayoutEffect<D = any, P = any>(
   initialState: D,
-  dependencyParams: P,
-  callback: (params: P) => Promise<D>
+  dependencyParams: Array<P>,
+  callback: (params: Array<P>) => Promise<D>
 ): [D, boolean] {
   const [data, setData] = useState<D>(initialState);
   const [isFetching, setIsFetching] = useState(false);
@@ -24,7 +24,7 @@ function useAsyncLayoutEffect<D = any, P = any>(
         console.log(error);
         throw new Error(error);
       }
-    }, [dependencyParams])
+    }, [...dependencyParams])
   );
 
   return [data, isFetching];
