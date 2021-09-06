@@ -1,8 +1,11 @@
 import React from 'react';
 import isSameMonth from 'date-fns/isSameMonth';
+import { useTheme } from 'styled-components';
 
 import AS from 'app/utils/asyncStorage';
 import useAsyncLayoutEffect from 'app/hook/useAsyncLayoutEffect';
+
+import { VictoryPie } from 'victory-native';
 
 import Header from 'app/components/ui/Header';
 import Layout from 'app/components/ui/Layout';
@@ -13,27 +16,42 @@ import Container from 'app/components/ui/Container';
 import CategoryCard from './components/CategoryCard';
 
 import type { CategoryType, Transaction } from 'app/types/models';
+import getCategory from 'app/utils/getCategory';
 
 const Report: React.FC = () => {
+  const theme = useTheme();
   const [transactions, isFetching] = useAsyncLayoutEffect<Transaction[]>(
     [],
     undefined,
     async () => {
       const data = await AS.get<Transaction[]>('transactions');
-      return data.filter(({ date }) => isSameMonth(new Date(), new Date(date)));
+      return data
+        .filter(({ date }) => isSameMonth(new Date(), new Date(date)))
+        .filter(({ transactionType }) => transactionType === 'outcome');
     }
+  );
+
+  const totalOutcome = React.useMemo(
+    () => transactions.reduce((acc, { value }) => acc + value, 0),
+    [transactions]
   );
 
   const totalByCategory = React.useMemo(
     () =>
-      transactions.reduce(
-        (acc, transaction) => ({
+      transactions.reduce((acc, transaction) => {
+        const total =
+          (acc[transaction.category]?.total || 0) + transaction.value;
+        const percentage = total / totalOutcome;
+
+        return {
           ...acc,
-          [transaction.category]:
-            (acc[transaction.category] || 0) + transaction.value,
-        }),
-        {} as { [key in CategoryType]: number }
-      ),
+          [transaction.category]: {
+            total,
+            percentage,
+            color: getCategory(transaction.category).color,
+          },
+        };
+      }, {} as { [key in CategoryType]: { total: number; percentage: number; color: string } }),
     [transactions]
   );
 
@@ -45,12 +63,34 @@ const Report: React.FC = () => {
         </S.Container>
       </Header>
       <Container fullHeight>
+        <S.ChartContainer>
+          <VictoryPie
+            data={Object.entries(totalByCategory).map(
+              ([_, { percentage, total }]) => ({
+                x: `${Number((percentage * 100).toFixed(2)).toLocaleString(
+                  'pt-Br'
+                )}%`,
+                y: total,
+              })
+            )}
+            colorScale={Object.values(totalByCategory).map(
+              ({ color }) => color
+            )}
+            style={{
+              labels: {
+                fontSize: theme.rfValue(16),
+                fill: theme.palette.shape,
+              },
+            }}
+            labelRadius={50}
+          />
+        </S.ChartContainer>
         <S.List>
-          {Object.entries(totalByCategory).map(([category, value]) => (
+          {Object.entries(totalByCategory).map(([category, { total }]) => (
             <CategoryCard
               key={category}
               category={category as CategoryType}
-              value={value}
+              value={total}
             />
           ))}
         </S.List>
