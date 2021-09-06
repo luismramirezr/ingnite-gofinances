@@ -5,6 +5,7 @@ import { useTheme } from 'styled-components';
 
 import Dashboard from 'app/screens/Dashboard';
 import Register from 'app/screens/Register';
+import Report from 'app/screens/Report';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,8 +54,8 @@ const PrivateRoutes: React.FC = () => {
             <MaterialIcons size={size} color={color} name="pie-chart" />
           ),
         }}
-        name="piechart"
-        component={Dashboard}
+        name="report"
+        component={Report}
       />
     </Tab.Navigator>
   );

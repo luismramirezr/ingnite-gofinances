@@ -28,7 +28,9 @@ const Dashboard: React.FC = () => {
     undefined,
     async () => {
       const data = await AS.get<Transaction[]>('transactions');
-      return data.filter(({ date }) => isSameMonth(new Date(), new Date(date)));
+      return data
+        .filter(({ date }) => isSameMonth(new Date(), new Date(date)))
+        .reverse();
     }
   );
 
